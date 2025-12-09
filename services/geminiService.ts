@@ -1,8 +1,7 @@
 import { GoogleGenAI, Type, Schema } from "@google/genai";
 import { NLQResponse } from "../types";
 
-const apiKey = process.env.API_KEY || '';
-const ai = new GoogleGenAI({ apiKey });
+const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 // Schema definition for the NLQ response to ensure structured data
 const nlqResponseSchema: Schema = {
@@ -43,8 +42,6 @@ const nlqResponseSchema: Schema = {
  * Here we use Gemini to generate plausible synthetic data for the demo.
  */
 export const generateStockForecast = async (itemName: string): Promise<any[]> => {
-  if (!apiKey) return [];
-
   const model = "gemini-2.5-flash";
   const prompt = `
     Generate a JSON array of daily stock usage data for a hospital pharmaceutical item: "${itemName}".
@@ -86,11 +83,6 @@ export const generateStockForecast = async (itemName: string): Promise<any[]> =>
  * Converts user question into structured data/insight using RAG/Context simulation.
  */
 export const processNaturalLanguageQuery = async (query: string): Promise<NLQResponse | null> => {
-  if (!apiKey) {
-    console.warn("API Key missing");
-    return null;
-  }
-
   const model = "gemini-2.5-flash";
   const systemInstruction = `
     You are an expert ERP Data Analyst for a Hospital System (RSE-ERP).
