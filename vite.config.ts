@@ -10,8 +10,8 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [react()],
     define: {
-      // Polyfill process.env.API_KEY for the Gemini Service usage
-      'process.env.API_KEY': JSON.stringify(env.API_KEY)
+      // Polyfill process.env.API_KEY. default to empty string to prevent runtime access crash
+      'process.env.API_KEY': JSON.stringify(env.API_KEY || '')
     },
     server: {
       port: 3000
